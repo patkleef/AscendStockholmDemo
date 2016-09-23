@@ -1,0 +1,83 @@
+﻿
+@model Demo.Models.Viewmodel.GoogleAuthViewModel
+
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/EPiServer/Shell/9.9.0.0/ClientResources/epi/themes/legacy/ShellCore.css">
+    <link rel="stylesheet" type="text/css" href="/EPiServer/Shell/9.9.0.0/ClientResources/epi/themes/legacy/ShellCoreLightTheme.css">
+    <link href="/App_Themes/Default/Styles/system.css" type="text/css" rel="stylesheet"/>
+    <link href="/App_Themes/Default/Styles/ToolButton.css" type="text/css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="/EPiServer/Shell/9.9.0.0/ClientResources/ShellCore.js"></script>
+    <script>
+    function auth_clicked() {
+        var new_window = window.open("/GoogleAuth/Auth", "_blank", "width=600,height=800");
+    }
+    </script>
+</head>
+<body>
+<div class="epi-contentContainer epi-padding">
+    <div class="epi-contentArea">
+        <h1 class="EP-prefix">
+            Google Authentication<a onclick="window.open('http://webhelp.episerver.com/16-5/home.htm#exportdata',
+    '_blank',    'scrollbars=yes, height=500, location=no, menubar=no, resizable=yes, toolbar=no, width=840');return false;" title="Help" href="http://webhelp.episerver.com/16-5/home.htm#exportdata" target="_blank"><img class="EPEdit-CommandTool" align="absmiddle" src="/App_Themes/Default/Images/Tools/Help.png" border="0" alt="Help"></a>
+        </h1>
+        <p class="EP-systemInfo">
+            @if (Model == null)
+            {
+                @Html.Raw("Click 'Auth' button to authenticate with a google account.")
+            }
+            else
+            {
+                @Html.Raw("Current user")
+            }
+        </p>
+    </div>
+    <div class="epi-formArea epi-paddingVertical-small">
+        <!-- START Export Pages Checkbox -->
+        <div class="epi-size5">
+            <div class="epi-paddingHorizontal">
+                @if (Model != null)
+                {
+                    <div id="PageList" style="display: block;">
+                        <div>
+                            <label for="FullRegion_MainRegion_PageRoot1">Email:</label>
+                            <div id="FullRegion_MainRegion_PageRoot1" style="display: inline; margin: 0;">
+                                <strong>@Model.Email</strong>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="FullRegion_MainRegion_PageRoot">Name:</label>
+                            <div id="FullRegion_MainRegion_PageRoot" style="display: inline; margin: 0;">
+                                <strong>@Model.Name</strong>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="epi-buttonContainer">
+        @if (Model == null)
+        {
+            <span class="epi-cmsButton">
+<input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-File" type="button" onclick="auth_clicked()" name="ctl00$FullRegion$MainRegion$TestExportButton" value="Auth" title="Auth" onmouseover="EPi.ToolButton.MouseDownHandler(this)" onmouseout="EPi.ToolButton.ResetMouseDownHandler(this)">
+        </span>
+        }
+        else
+        {
+            <span class="epi-cmsButton">
+                <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-File" type="button" onclick="window.location = '/GoogleAuth/Clear'" name="ctl00$FullRegion$MainRegion$TestExportButton" value="Clear" title="Clear" onmouseover="EPi.ToolButton.MouseDownHandler(this)" onmouseout="EPi.ToolButton.ResetMouseDownHandler(this)">
+            </span>
+            <span class="epi-cmsButton">
+                <input class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-File" type="button" onclick="window.location = '/GoogleAuth/ClearCache'" name="ctl00$FullRegion$MainRegion$TestExportButton" value="Clear cache" title="Clear cache" onmouseover="EPi.ToolButton.MouseDownHandler(this)" onmouseout="EPi.ToolButton.ResetMouseDownHandler(this)">
+            </span>
+        }
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿@using Demo.Helpers
+@model Demo.Models.Other.ContactData
+
+<h3>@Model.FullName</h3>
+<table class="table">
+    <tr>
+        <td>Address</td>
+        <td>@Model.GetAddressText()</td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <td>Phonenumber</td>
+        <td>@Model.Phonenumber</td>
+    </tr>
+    <tr>
+        <td>Company</td>
+        <td>@Model.Company</td>
+    </tr>
+    <tr>
+        <td>Function</td>
+        <td>@Model.Function</td>
+    </tr>
+</table>

@@ -1,0 +1,12 @@
+﻿@model Demo.Models.Pages.StartPage
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Contacts</h1>
+<hr/>
+
+<div class="container">
+    @Html.PropertyFor(x => x.Contacts, new { CssClass = "row", ChildrenCssClass = "col-md-4" })
+</div>
