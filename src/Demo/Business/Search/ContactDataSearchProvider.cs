@@ -32,11 +32,6 @@ namespace Demo.Business.Search
         public override string Category { get { return base.LocalizationService.GetString(ContentSearchProviderConstants.BlockCategory); } }
         protected override string IconCssClass { get { return "epi-resourceIcon epi-resourceIcon-block";  } }
         
-        /// <summary>
-        /// Search
-        /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
         public override IEnumerable<SearchResult> Search(Query query)
         {
             var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();

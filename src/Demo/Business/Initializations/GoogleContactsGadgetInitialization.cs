@@ -12,9 +12,6 @@ using EPiServer.ServiceLocation;
 
 namespace Demo.Business.Initializations
 {
-    /// <summary>
-    /// MailChimp initialization module
-    /// </summary>
     [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
     internal class GoogleContactsGadgetInitialization : IInitializableModule
     {
@@ -25,11 +22,7 @@ namespace Demo.Business.Initializations
         private static readonly Guid GoogleContactsRootGuid = new Guid("{F551E3B6-36A0-49A3-B055-A2CA706C4117}");
 
         public static ContentReference GoogleContactsRoot;
-
-        /// <summary>
-        /// Initialize merge fields component and register to the publish content event
-        /// </summary>
-        /// <param name="context"></param>
+        
         public void Initialize(InitializationEngine context)
         {
             _contentRootService = ServiceLocator.Current.GetInstance<ContentRootService>();
@@ -37,12 +30,7 @@ namespace Demo.Business.Initializations
 
             InitializeGoogleContactsComponent(context);
         }
-
-        /// <summary>
-        /// Unregister publish content event
-        ///  
-        /// </summary>
-        /// <param name="context"></param>
+        
         public void Uninitialize(InitializationEngine context)
         {
 
@@ -62,13 +50,7 @@ namespace Demo.Business.Initializations
             var providerManager = context.Locate.Advanced.GetInstance<IContentProviderManager>();
             providerManager.ProviderMap.AddProvider(googleContactsProvider);
         }
-
-        /// <summary>
-        /// Create root folder
-        /// </summary>
-        /// <param name="rootName"></param>
-        /// <param name="rootGuid"></param>
-        /// <returns></returns>
+        
         private ContentReference CreateRootFolder(string rootName, Guid rootGuid)
         {
             _contentRootService.Register<ContentFolder>(rootName, rootGuid, ContentReference.RootPage);

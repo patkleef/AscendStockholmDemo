@@ -8,7 +8,7 @@ namespace Demo.Business.Ui
     {
         public ContactDataUiDescriptor()
         {
-            DefaultView = "contactInformationContent";
+            DefaultView = "contactInformation";
 
             AddDisabledView(CmsViewNames.OnPageEditView);
         }

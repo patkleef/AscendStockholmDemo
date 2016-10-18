@@ -5,18 +5,14 @@ using EPiServer.Shell;
 namespace Demo.Business.Ui
 {
    [ServiceConfiguration(typeof(ViewConfiguration))]
-    public class ContactViewConfiguration : ViewConfiguration<ContactData>
+    public class ContactInformationViewConfiguration : ViewConfiguration<ContactData>
     {
-        /// <summary>
-        /// Public constructor
-        /// Set path to the Dojo widget and some layout settings
-        /// </summary>
-        public ContactViewConfiguration()
+        public ContactInformationViewConfiguration()
         {
             SortOrder = 1;
-            Key = "contactInformationContent";
+            Key = "contactInformation";
             Name = "Contact information";
-            Description = "Contactinformatoin";
+            Description = "Contactinformation";
             ControllerType = "app/editors/contactinformation";
             IconClass = "epi-iconLayout";
             HideFromViewMenu = false;

@@ -16,12 +16,8 @@ namespace Demo.Business.Initializations
         public const string ContactsRootName = "Contacts";
         public static Guid ContactsRootGuid = new Guid("414E5F5A-CCEC-4C50-AE80-0CC0E1DC66FE");
 
-        public static ContentReference ChartsRoot;
-
-        /// <summary>
-        /// Initialize method
-        /// </summary>
-        /// <param name="context"></param>
+        public static ContentReference ContactsRoot;
+        
         public void Initialize(InitializationEngine context)
         {
             var contentRootService = ServiceLocator.Current.GetInstance<ContentRootService>();
@@ -29,9 +25,9 @@ namespace Demo.Business.Initializations
 
             contentRootService.Register<ContentFolder>(ContactsRootName, ContactsRootGuid, ContentReference.RootPage);
 
-            ChartsRoot = contentRootService.Get(ContactsRootName);
+            ContactsRoot = contentRootService.Get(ContactsRootName);
 
-            var securityDescriptor = contentSecurityRepository.Get(ChartsRoot).CreateWritableClone() as IContentSecurityDescriptor;
+            var securityDescriptor = contentSecurityRepository.Get(ContactsRoot).CreateWritableClone() as IContentSecurityDescriptor;
 
             if (securityDescriptor != null)
             {
@@ -42,15 +38,11 @@ namespace Demo.Business.Initializations
                 if (everyoneEntry != null)
                 {
                     securityDescriptor.RemoveEntry(everyoneEntry);
-                    contentSecurityRepository.Save(ChartsRoot, securityDescriptor, SecuritySaveType.Replace);
+                    contentSecurityRepository.Save(ContactsRoot, securityDescriptor, SecuritySaveType.Replace);
                 }
             }
         }
-
-        /// <summary>
-        /// Uninitialize
-        /// </summary>
-        /// <param name="context"></param>
+        
         public void Uninitialize(InitializationEngine context)
         {
         }

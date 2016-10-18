@@ -46,11 +46,7 @@ namespace Demo.Business.GoogleIntegration
                 });
             return new UserCredential(flow, "user", tokenResponse);
         }
-
-        /// <summary>
-        /// Get all contacts via Google People Api
-        /// </summary>
-        /// <returns></returns>
+        
         public async Task<IEnumerable<Person>> GetContacts()
         {
             var list = CacheManager.Get(_cacheKey);
@@ -76,12 +72,7 @@ namespace Demo.Business.GoogleIntegration
 
             return response.Connections.AsEnumerable();
         }
-
-        /// <summary>
-        /// Get contact by resource name
-        /// </summary>
-        /// <param name="resourceName"></param>
-        /// <returns></returns>
+        
         public async Task<Person> GetContact(string resourceName)
         {
             var list = CacheManager.Get(_cacheKey);

@@ -271,7 +271,7 @@
     <Compile Include="Business\Ui\ContactGadget.cs" />
     <Compile Include="Business\Initializations\ContactInitialization.cs" />
     <Compile Include="Business\Store\ContactRestStore.cs" />
-    <Compile Include="Business\Ui\ContactViewConfiguration.cs" />
+    <Compile Include="Business\Ui\ContactInformationViewConfiguration.cs" />
     <Compile Include="Business\Store\ContactViewModel.cs" />
     <Compile Include="Business\Search\ContactDataSearchProvider.cs" />
     <Compile Include="Business\GoogleIntegration\GoogleContactsService.cs" />

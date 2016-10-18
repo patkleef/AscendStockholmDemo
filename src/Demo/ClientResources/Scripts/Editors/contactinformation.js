@@ -3,6 +3,8 @@
     "dojo/parser",
      "dojo/when",
      "dojo/_base/lang",
+     "dojo/window",
+     "dojox/layout/ScrollPane",
 
     "dijit/_Widget",
     "dijit/_TemplatedMixin",
@@ -21,6 +23,8 @@
     parser,
     when,
     lang,
+    window,
+    ScrollPane,
 
     Widget,
     TemplatedMixin,
@@ -39,6 +43,9 @@
         postCreate: function () {
             this.inherited(arguments);
 
+            var height = window.getBox().h - 200;
+            this.containerScroll.style.height = height + "px";
+
             parser.parse(this.containerRoot);
 
             console.log("Contact information widget loaded");
@@ -53,6 +60,7 @@
             var currentContext = contextService.currentContext;
 
             this.initContactInformation(currentContext);
+
             
         },
 

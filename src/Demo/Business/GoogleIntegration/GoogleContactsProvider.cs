@@ -14,13 +14,7 @@ namespace Demo.Business.GoogleIntegration
     public class GoogleContactsProvider : ContentProvider
     {
         public const string Key = "google-contacts-provider";
-
-        /// <summary>
-        /// Get the merge field id from the URL and convert to IContent item.
-        /// </summary>
-        /// <param name="contentLink"></param>
-        /// <param name="languageSelector"></param>
-        /// <returns></returns>
+        
         protected override IContent LoadContent(ContentReference contentLink, ILanguageSelector languageSelector)
         {
             var identityMappingService = ServiceLocator.Current.GetInstance<IdentityMappingService>();
@@ -32,14 +26,7 @@ namespace Demo.Business.GoogleIntegration
 
             return Convert(googleContactsService.GetContact("people/" + resourceName).Result);
         }
-
-        /// <summary>
-        /// Retrieve all merge fields and convert to ContentReference
-        /// </summary>
-        /// <param name="contentLink"></param>
-        /// <param name="languageID"></param>
-        /// <param name="languageSpecific"></param>
-        /// <returns></returns>
+        
         protected override IList<GetChildrenReferenceResult> LoadChildrenReferencesAndTypes(ContentReference contentLink, string languageID, out bool languageSpecific)
         {
             var identityMappingService = ServiceLocator.Current.GetInstance<IdentityMappingService>();
@@ -58,25 +45,14 @@ namespace Demo.Business.GoogleIntegration
 
             return result;
         }
-
-        /// <summary>
-        /// Override the cache settings. Set cache setting to 1 minutes for now.
-        /// </summary>
-        /// <param name="contentReference"></param>
-        /// <param name="children"></param>
-        /// <param name="cacheSettings"></param>
+        
         protected override void SetCacheSettings(ContentReference contentReference, IEnumerable<GetChildrenReferenceResult> children, CacheSettings cacheSettings)
         {
             cacheSettings.SlidingExpiration = TimeSpan.FromSeconds(0);
 
             base.SetCacheSettings(contentReference, children, cacheSettings);
         }
-
-        /// <summary>
-        /// Convert (Google)Person object to (IContent)ContactData. This type inherits from ContentBase, so can be used internally by EPi
-        /// </summary>
-        /// <param name="person"></param>
-        /// <returns></returns>
+        
         private ContactData Convert(Person person)
         {
             if (person != null)
