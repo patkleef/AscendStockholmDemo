@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Demo.Business.Configuration;
 using EPiServer;
+using EPiServer.Framework.Cache;
 using EPiServer.ServiceLocation;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -16,8 +17,7 @@ namespace Demo.Business.GoogleIntegration
 {
     /// <summary>
     /// Google contacts service
-    /// Integration via Google People APi
-    /// episerverascenddemo@gmail.com
+    /// Integration with Google People APi
     /// </summary>
     [ServiceConfiguration(ServiceType = typeof(GoogleContactsService))]
     public class GoogleContactsService
@@ -25,9 +25,12 @@ namespace Demo.Business.GoogleIntegration
         private readonly string _cacheKey = "contacts-cache-key";
         private readonly string _fileDataStorePath;
 
+        private IEnumerable<Person> _persons;
+
         public GoogleContactsService()
         {
             _fileDataStorePath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/People.Api.Auth.Store";
+            _persons = new List<Person>();
         }
 
         private async Task<UserCredential> GetUserCredential()
@@ -67,8 +70,9 @@ namespace Demo.Business.GoogleIntegration
             request.RequestMaskIncludeField = "person.addresses,person.email_addresses,person.metadata,person.names,person.organizations,person.phone_numbers";
 
             var response = request.Execute();
-
-            CacheManager.Insert(_cacheKey, response.Connections);
+            
+            CacheManager.Insert(_cacheKey, response.Connections, new CacheEvictionPolicy(TimeSpan.FromSeconds(5), CacheTimeoutType.Sliding));
+            _persons = response.Connections;
 
             return response.Connections.AsEnumerable();
         }
@@ -78,14 +82,18 @@ namespace Demo.Business.GoogleIntegration
             var list = CacheManager.Get(_cacheKey);
             if (list != null)
             {
-                return ((IEnumerable<Person>) list).FirstOrDefault(x => x.ResourceName.Equals(resourceName));
+                var contact = ((IEnumerable<Person>) list).FirstOrDefault(x => x.ResourceName.Equals(resourceName));
+                if (contact != null)
+                {
+                    return contact;
+                }
             }
 
             var credential = await GetUserCredential();
 
             var peopleService = new PeopleService(new BaseClientService.Initializer
             {
-                ApplicationName = "People API .NET Quickstart",
+                ApplicationName = ConfigurationHelper.ApplicationName,
                 HttpClientInitializer = credential
             });
 

@@ -14,19 +14,7 @@ namespace Demo.Business.GoogleIntegration
     public class GoogleContactsProvider : ContentProvider
     {
         public const string Key = "google-contacts-provider";
-        
-        protected override IContent LoadContent(ContentReference contentLink, ILanguageSelector languageSelector)
-        {
-            var identityMappingService = ServiceLocator.Current.GetInstance<IdentityMappingService>();
-            var googleContactsService = ServiceLocator.Current.GetInstance<GoogleContactsService>();
 
-            var mappedIdentity = identityMappingService.Get(contentLink);
-
-            string resourceName = mappedIdentity.ExternalIdentifier.Segments[1];
-
-            return Convert(googleContactsService.GetContact("people/" + resourceName).Result);
-        }
-        
         protected override IList<GetChildrenReferenceResult> LoadChildrenReferencesAndTypes(ContentReference contentLink, string languageID, out bool languageSpecific)
         {
             var identityMappingService = ServiceLocator.Current.GetInstance<IdentityMappingService>();
@@ -36,19 +24,35 @@ namespace Demo.Business.GoogleIntegration
 
             languageSpecific = false;
 
-            var result =  contacts.Result.Select(p =>
-                new GetChildrenReferenceResult()
-                {
-                    ContentLink = identityMappingService.Get(MappedIdentity.ConstructExternalIdentifier(ProviderKey, p.ResourceName.Split('/')[1]), true).ContentLink,
-                    ModelType = typeof(ContactData)
-                }).ToList();
-
+            var result = contacts.Result.Select(p =>
+               new GetChildrenReferenceResult()
+               {
+                   // MappedIdentity.ConstructExternalIdentifier(ProviderKey, p.ResourceName.Split('/')[1]): epi.cms.identity://google-contacts-provider/c5792122681440133761
+                   ContentLink = identityMappingService.Get(MappedIdentity.ConstructExternalIdentifier(ProviderKey, p.ResourceName.Split('/')[1]), true).ContentLink,
+                   ModelType = typeof(ContactData)
+               }).ToList();
             return result;
         }
+
+        protected override IContent LoadContent(ContentReference contentLink, ILanguageSelector languageSelector)
+        {
+            // contentLink: Id: 319, ProviderName = "google-contacts-provider"
+
+            var identityMappingService = ServiceLocator.Current.GetInstance<IdentityMappingService>();
+            var googleContactsService = ServiceLocator.Current.GetInstance<GoogleContactsService>();
+
+            // tblMappedIdentity
+            var mappedIdentity = identityMappingService.Get(contentLink); 
+
+            string resourceName = mappedIdentity.ExternalIdentifier.Segments[1]; // c5792122681440133761
+
+            return Convert(googleContactsService.GetContact("people/" + resourceName).Result);
+        }
+        
         
         protected override void SetCacheSettings(ContentReference contentReference, IEnumerable<GetChildrenReferenceResult> children, CacheSettings cacheSettings)
         {
-            cacheSettings.SlidingExpiration = TimeSpan.FromSeconds(0);
+            cacheSettings.CancelCaching = true;
 
             base.SetCacheSettings(contentReference, children, cacheSettings);
         }

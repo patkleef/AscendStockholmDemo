@@ -60,8 +60,6 @@
             var currentContext = contextService.currentContext;
 
             this.initContactInformation(currentContext);
-
-            
         },
 
         initContactInformation: function(context) {

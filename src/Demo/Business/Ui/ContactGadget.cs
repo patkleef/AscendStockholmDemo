@@ -10,7 +10,7 @@ namespace Demo.Business.Ui
         {
             Categories = new string[] { "content" };
             Title = "Contacts";
-            Description = "Gadget for showing contacts";
+            Description = "Gadget for managing contacts";
             SortOrder = 1000;
             PlugInAreas = new[] { PlugInArea.Assets };
             Settings.Add(new Setting("repositoryKey", ContactDataRepositoryDescriptor.RepositoryKey));

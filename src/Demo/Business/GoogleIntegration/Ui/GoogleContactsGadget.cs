@@ -18,7 +18,7 @@ namespace Demo.Business.GoogleIntegration.Ui
         {
             Categories = new string[] { "content" };
             Title = "[Google] Contacts";
-            Description = "Display your Google contacts";
+            Description = "Gadget for managing Google contacts";
             SortOrder = 105;
             PlugInAreas = new string[] { PlugInArea.Assets  };
             Settings.Add(new Setting("repositoryKey", GoogleContactsRepositoryDescriptor.RepositoryKey));
